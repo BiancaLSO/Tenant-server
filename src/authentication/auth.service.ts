@@ -32,6 +32,7 @@ export class AuthService {
     let payload: any = {
       username: user.email,
       id: user.id,
+      // tenantId: user.tenant?.id
     };
     
     if (user.tenant) {

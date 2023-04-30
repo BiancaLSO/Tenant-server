@@ -68,7 +68,10 @@ async findUserById(id: number) : Promise<User> {
 }
 
 async findOne(username: string): Promise<User> {
-  const result = await this.userRepository.findOne({where: {email: username}});  
+  const result = await this.userRepository.findOne({
+    where: { email: username },
+    relations: { tenant: true, board: true },
+  });  
   return result;
 }
 

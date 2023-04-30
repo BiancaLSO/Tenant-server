@@ -11,9 +11,7 @@ export class TenantGuard implements CanActivate {
     const request = context.switchToHttp().getRequest()
     const userId: number = request.user.id
     const user = await this.usersService.findUserById(userId);
-    
-    // This returns true if there is a user and
-    // the user is an admin
+  
     return user && user.role === Role.User
   }
 }
