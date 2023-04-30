@@ -15,6 +15,7 @@ import { Info } from './infos/entities/info.entity';
 import { Region } from './regions/entities/region.entity';
 import { ApartmentInfo } from './apartment-info/entities/apartment-info.entity';
 import { User } from './users/entities/user.entity';
+import { AuthModule } from './authentication/auth.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { User } from './users/entities/user.entity';
     RegionsModule,
     ApartmentInfoModule,
     UsersModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

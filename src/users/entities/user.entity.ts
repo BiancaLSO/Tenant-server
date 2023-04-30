@@ -1,4 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from 'typeorm';
+import { Role } from '../roles/role.enum';
+import { TenantEntity } from './tenant.entity';
+import { BoardMemberEntity } from './boardmember.entity';
 
 @Entity()
 export class User {
@@ -27,6 +30,15 @@ export class User {
   endDate: Date;
 
   // Link with apartment id
+  // Link to issues created
 
   // Link with Tenant, Admin and SuperAdmin for Role Based Auth
+  @OneToOne((type) => TenantEntity, (tenant) => tenant.user)
+  tenant: TenantEntity | null;
+
+  @OneToOne((type) => BoardMemberEntity, (board) => board.user)
+  board: BoardMemberEntity | null;
+
+  @Column({ type: 'enum', enum: Role, default: Role.User })
+  role: Role;
 }
