@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UseGuards } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -37,6 +37,7 @@ export class UsersService {
     tenant.user = user;
     return this.tenantRepository.save(tenant);
   }
+
   // this action creates a boardmember with role of admin
   async createBoardMember(
     createUserDto: CreateUserDto,
@@ -56,16 +57,23 @@ export class UsersService {
     boardMember.name = createUserDto.firstName;
     boardMember.phone = createUserDto.phone;
     boardMember.user = user;
-
     return this.boardMemberRepository.save(boardMember);
   }
 
+
+
+// login
+async findUserById(id: number) : Promise<User> {
+  return this.userRepository.findOne({where: {id: id}});
+}
+
+async findOne(username: string): Promise<User> {
+  const result = await this.userRepository.findOne({where: {email: username}});  
+  return result;
+}
+
   findAll() {
     return `This action returns all users`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
