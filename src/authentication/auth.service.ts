@@ -6,9 +6,10 @@ import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
-  constructor(private usersService: UsersService,
-    private jwtService: JwtService
-    ) {}
+  constructor(
+    private usersService: UsersService,
+    private jwtService: JwtService,
+  ) {}
 
   async signupTenant(createUserDto: CreateUserDto) {
     return this.usersService.createTenant(createUserDto);
@@ -34,7 +35,7 @@ export class AuthService {
       id: user.id,
       // tenantId: user.tenant?.id
     };
-    
+
     if (user.tenant) {
       payload.tenantId = user.tenant.id;
     } else if (user.board) {

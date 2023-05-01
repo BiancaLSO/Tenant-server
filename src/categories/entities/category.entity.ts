@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 
 @Entity()
-export class Suggestion {
+export class Category {
   @PrimaryGeneratedColumn()
   id: number;
 
