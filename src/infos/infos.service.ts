@@ -11,7 +11,7 @@ export class InfosService {
     private infoRepository: Repository<Info>,
   ) {}
 
-  async create(createInfoDto: CreateInfoDto) {
+  async create(createInfoDto: CreateInfoDto): Promise<Info> {
     const info = new Info();
     info.title = createInfoDto.title;
     info.info = createInfoDto.info;
@@ -22,7 +22,7 @@ export class InfosService {
     return await this.infoRepository.find();
   }
 
-  async remove(id: number) {
+  async remove(id: number): Promise<Info> {
     const infoToRemove = await this.infoRepository.findOne({
       where: { id: id },
     });
