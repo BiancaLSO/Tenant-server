@@ -24,4 +24,7 @@ export class ApartmentInfo {
 
   @OneToMany((type) => User, (user) => user.apartmentInfo)
   users: User[];
+
+  @ManyToOne((type) => Region, (region) => region.apartments)
+  region: Region;
 }

@@ -1,5 +1,5 @@
 import { ApartmentInfo } from 'src/apartment-info/entities/apartment-info.entity';
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 
 @Entity()
 export class Region {
@@ -12,5 +12,6 @@ export class Region {
   @Column()
   postcode: number;
 
-  // Relation linking the regions with apartment-info
+  @OneToMany(() => ApartmentInfo, (apartment) => apartment.region)
+  apartments: ApartmentInfo[];
 }

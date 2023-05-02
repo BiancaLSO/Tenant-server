@@ -1,3 +1,5 @@
+import { Category } from 'src/categories/entities/category.entity';
+import { User } from 'src/users/entities/user.entity';
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 
 @Entity()
@@ -14,8 +16,9 @@ export class Issue {
   @Column({ nullable: true })
   imageUrl: string;
 
-  //  Here it has to be connect with the tenat in order to to know who created which issue
+ @ManyToOne(() => Category, (category) => category.issues)
+  category: Category;
 
-  //   @ManyToOne(() => Tenant, (tenant) => tenant.problem)
-  //   tenant: Tenant;
+  @ManyToOne(() => User, (user) => user.issues)
+  user: User;
 }

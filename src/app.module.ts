@@ -15,6 +15,7 @@ import { ApartmentInfo } from './apartment-info/entities/apartment-info.entity';
 import { User } from './users/entities/user.entity';
 import { AuthModule } from './authentication/auth.module';
 import { CategoriesModule } from './categories/categories.module';
+import { Category } from './categories/entities/category.entity';
 
 @Module({
   imports: [
@@ -29,7 +30,7 @@ import { CategoriesModule } from './categories/categories.module';
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
         autoLoadEntities: true,
-        entities: [ Issue, Info, Region, ApartmentInfo, User],
+        entities: [ Issue, Info, Region, ApartmentInfo, User, Category],
         synchronize: true, // Setting synchronize: true shouldn't be used in production - otherwise you can lose production data.
       }),
       inject: [ConfigService],
