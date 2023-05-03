@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Put,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -17,27 +18,29 @@ import { AdminGuard } from './roles/admin.guard';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService,
+    private readonly tenantService: UsersService) {}
 
 
-  @UseGuards(JwtAuthGuard, TenantGuard)  // testing
+  // @UseGuards(JwtAuthGuard, TenantGuard)  // testing
   @Get()
   findAll() {
     return this.usersService.findAll();
   }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.usersService.findOne(+id);
-  // }
+  @Get(':id')
+  findOneUser(@Param('id') id: string) {
+    return this.usersService.findOneUser(+id);
+  }
 
-  @Patch(':id')
+  @Put(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(+id, updateUserDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
+  async remove(@Param('id') id: number): Promise<void> {
+    await this.tenantService.remove(id);
   }
+ 
 }
