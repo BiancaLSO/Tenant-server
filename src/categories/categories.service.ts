@@ -37,13 +37,13 @@ export class CategoriesService {
     return this.categoryRepository.delete({ id: id });
   }
 
-  filter(categoryName: string) {
-    const query = this.issueRepository
-      .createQueryBuilder('issue')
-      .innerJoin('issue.category', 'category')
-      .where('category.name =:categoryName', { categoryName })
-      .getMany();
+  // filter(categoryName: string) {
+  //   const query = this.issueRepository
+  //     .createQueryBuilder('issue')
+  //     .innerJoin('issue.category', 'category')
+  //     .where('category.name =:categoryName', { categoryName })
+  //     .getMany();
 
-    return query;
-  }
+  //   return query;
+  // }
 }

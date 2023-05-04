@@ -16,17 +16,22 @@ export class IssuesService {
     private categoryRepository: Repository<Category>,
     @InjectRepository(User)
     private userRepository: Repository<User>,
-    
   ) {}
 
-  async create(createIssueDto: CreateIssueDto, categoryId: number, userId: number): Promise<Issue> {
-    const category = await this.categoryRepository.findOneBy({ id: categoryId });
-    const user =  await this.userRepository.findOneBy({ id: userId });
+  async create(
+    createIssueDto: CreateIssueDto,
+    categoryId: number,
+    userId: number,
+  ): Promise<Issue> {
+    const category = await this.categoryRepository.findOneBy({
+      id: categoryId,
+    });
+    const user = await this.userRepository.findOneBy({ id: userId });
 
-    if(!category || !user) {
+    if (!category || !user) {
       throw new Error('Category not found');
     }
-  
+
     const issue = new Issue();
     issue.subject = createIssueDto.subject;
     issue.description = createIssueDto.description;
@@ -46,5 +51,25 @@ export class IssuesService {
 
   remove(id: number) {
     return this.issueRepository.delete({ id: id });
+  }
+
+  // async filter(categoryName: string): Promise<Issue[]> {
+  //   const query = await this.issueRepository
+  //     .createQueryBuilder('issue')
+  //     .innerJoin('issue.category', 'category')
+  //     .where('category.name = :categoryName', { categoryName })
+  //     .getMany();
+
+  //   return query;
+  // }
+
+  async filter(categoryName: number): Promise<Issue[]> {
+    const query = await this.issueRepository
+      .createQueryBuilder('issue')
+      .innerJoin('issue.category', 'category')
+      .where('category.id = :categoryName', { categoryName })
+      .getMany();
+
+    return query;
   }
 }

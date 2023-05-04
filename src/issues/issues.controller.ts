@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+  Query,
+} from '@nestjs/common';
 import { IssuesService } from './issues.service';
 import { CreateIssueDto } from './dto/create-issue.dto';
 import { UpdateIssueDto } from './dto/update-issue.dto';
@@ -10,10 +20,14 @@ export class IssuesController {
   constructor(private readonly issuesService: IssuesService) {}
 
   @Post()
-  create(@Body() createIssueDto: CreateIssueDto, categoryId: number, userId: number) {
+  create(
+    @Body() createIssueDto: CreateIssueDto,
+    categoryId: number,
+    userId: number,
+  ) {
     return this.issuesService.create(createIssueDto, categoryId, userId);
   }
-  
+
   // @UseGuards(JwtAuthGuard, TenantGuard) // testing
   @Get()
   findAll() {
@@ -28,5 +42,9 @@ export class IssuesController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.issuesService.remove(+id);
+  }
+  @Get('filter')
+  async filter(@Query('category') categoryName: number) {
+    return await this.issuesService.filter(categoryName);
   }
 }

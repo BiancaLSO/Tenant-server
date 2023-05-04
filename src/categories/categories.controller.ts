@@ -44,8 +44,8 @@ export class CategoriesController {
     return this.categoriesService.remove(+id);
   }
 
-  @Get('filter')
-  filter(@Query('category') categoryName: string) {
-    return this.categoriesService.filter(categoryName);
-  }
+  //   @Get('filter')
+  //   filter(@Query('category') categoryName: string) {
+  //     return this.categoriesService.filter(categoryName);
+  //   }
 }
