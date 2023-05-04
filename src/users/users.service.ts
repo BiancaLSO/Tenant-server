@@ -1,4 +1,4 @@
-import { Injectable, UseGuards } from '@nestjs/common';
+import { Body, Injectable, UseGuards } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -61,7 +61,6 @@ export class UsersService {
   }
 
 
-
 // login
 async findUserById(id: number) : Promise<User> {
   return this.userRepository.findOne({where: {id: id}});
@@ -76,14 +75,29 @@ async findOne(username: string): Promise<User> {
 }
 
   findAll() {
-    return `This action returns all users`;
+    return this.userRepository.find()
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  findOneUser(id: number) {
+    return this.userRepository.findOneBy({id: id})
+  }
+  async update(id: number, updateUserDto: UpdateUserDto) {
+    const toUpdate = await this.userRepository.findOne({ where: { id } });
+    const updated = Object.assign(toUpdate, updateUserDto);
+    return await this.userRepository.save(updated);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+/* These are two methods in the `UsersService` class that are responsible for deleting a tenant and its
+associated user from the database. */
+  async deleteTenant(tenant: TenantEntity): Promise<void> {
+    const user = tenant.user;
+    await this.userRepository.delete(user.id);
+  }
+  
+  async remove(id: number): Promise<void> {
+    const tenant = await this.tenantRepository.findOne({ where: { id } });
+    await this.tenantRepository.delete(tenant);
   }
 }
+
+
