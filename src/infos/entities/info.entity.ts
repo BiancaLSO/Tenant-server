@@ -6,5 +6,8 @@ export class Info {
   id: number;
 
   @Column()
+  title: string;
+
+  @Column()
   info: string;
 }
