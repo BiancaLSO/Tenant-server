@@ -43,9 +43,4 @@ export class CategoriesController {
   remove(@Param('id') id: string) {
     return this.categoriesService.remove(+id);
   }
-
-  //   @Get('filter')
-  //   filter(@Query('category') categoryName: string) {
-  //     return this.categoriesService.filter(categoryName);
-  //   }
 }

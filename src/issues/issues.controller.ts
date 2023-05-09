@@ -43,8 +43,9 @@ export class IssuesController {
   remove(@Param('id') id: string) {
     return this.issuesService.remove(+id);
   }
+
   @Get('filter')
-  async filter(@Query('category') categoryName: number) {
+  async filter(@Query('categoryName') categoryName: string) {
     return await this.issuesService.filter(categoryName);
   }
 }

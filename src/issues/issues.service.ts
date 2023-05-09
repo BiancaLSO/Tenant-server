@@ -53,23 +53,14 @@ export class IssuesService {
     return this.issueRepository.delete({ id: id });
   }
 
-  // async filter(categoryName: string): Promise<Issue[]> {
-  //   const query = await this.issueRepository
-  //     .createQueryBuilder('issue')
-  //     .innerJoin('issue.category', 'category')
-  //     .where('category.name = :categoryName', { categoryName })
-  //     .getMany();
-
-  //   return query;
-  // }
-
-  async filter(categoryName: number): Promise<Issue[]> {
-    const query = await this.issueRepository
+  async filter(categoryName: string): Promise<Issue[]> {
+    const query = this.issueRepository
       .createQueryBuilder('issue')
-      .innerJoin('issue.category', 'category')
-      .where('category.id = :categoryName', { categoryName })
-      .getMany();
+      .innerJoinAndSelect('issue.category', 'category')
+      .where('category.name = :categoryName', { categoryName });
 
-    return query;
+    const issues = await query.getMany();
+
+    return issues;
   }
 }
