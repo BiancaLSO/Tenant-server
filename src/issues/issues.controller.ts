@@ -47,6 +47,13 @@ export class IssuesController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
+    console.log(id);
     return this.issuesService.remove(+id);
+  }
+
+  @Get('filter/filters')
+  async filter(@Query('category') categoryName: string) {
+    console.log(categoryName);
+    return await this.issuesService.filter(categoryName);
   }
 }

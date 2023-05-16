@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { CreateIssueDto } from './dto/create-issue.dto';
-import { UpdateIssueDto } from './dto/update-issue.dto';
 import { Issue } from './entities/issue.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Like } from 'typeorm';
@@ -53,12 +52,22 @@ export class IssuesService {
     return this.issueRepository.delete({ id: id });
   }
 
-  // NOT TESTED
   async searchIssuesBySubject(subject: string): Promise<Issue[]> {
     return this.issueRepository.find({
       where: {
         subject: Like(`%${subject}%`),
       },
     });
+  }
+
+  async filter(categoryName: string): Promise<Issue[]> {
+    const query = this.issueRepository
+      .createQueryBuilder('issue')
+      .innerJoinAndSelect('issue.category', 'category')
+      .where('category.name = :categoryName', { categoryName });
+
+    const issues = await query.getMany();
+
+    return issues;
   }
 }

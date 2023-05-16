@@ -7,6 +7,7 @@ import { TenantEntity } from './entities/tenant.entity';
 import { BoardMemberEntity } from './entities/boardmember.entity';
 import { Repository } from 'typeorm';
 import { Role } from './roles/role.enum';
+import { encodePassword } from 'utils/bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -21,9 +22,10 @@ export class UsersService {
 
   // this action creates a tenant-role with of user
   async createTenant(createUserDto: CreateUserDto): Promise<TenantEntity> {
+    const password = encodePassword(createUserDto.password);
     const user = await this.userRepository.save({
       email: createUserDto.email,
-      password: createUserDto.password,
+      password: password,
       firstName: createUserDto.firstName,
       lastName: createUserDto.lastName,
       phone: createUserDto.phone,
@@ -42,9 +44,10 @@ export class UsersService {
   async createBoardMember(
     createUserDto: CreateUserDto,
   ): Promise<BoardMemberEntity> {
+    const password = encodePassword(createUserDto.password);
     const user = await this.userRepository.save({
       email: createUserDto.email,
-      password: createUserDto.password,
+      password: password,
       firstName: createUserDto.firstName,
       lastName: createUserDto.lastName,
       phone: createUserDto.phone,
@@ -60,26 +63,25 @@ export class UsersService {
     return this.boardMemberRepository.save(boardMember);
   }
 
+  // login
+  async findUserById(id: number): Promise<User> {
+    return this.userRepository.findOne({ where: { id: id } });
+  }
 
-// login
-async findUserById(id: number) : Promise<User> {
-  return this.userRepository.findOne({where: {id: id}});
-}
-
-async findOne(username: string): Promise<User> {
-  const result = await this.userRepository.findOne({
-    where: { email: username },
-    relations: { tenant: true, board: true },
-  });  
-  return result;
-}
+  async findOne(username: string): Promise<User> {
+    const result = await this.userRepository.findOne({
+      where: { email: username },
+      relations: { tenant: true, board: true },
+    });
+    return result;
+  }
 
   findAll() {
-    return this.userRepository.find()
+    return this.userRepository.find();
   }
 
   findOneUser(id: number) {
-    return this.userRepository.findOneBy({id: id})
+    return this.userRepository.findOneBy({ id: id });
   }
   async update(id: number, updateUserDto: UpdateUserDto) {
     const toUpdate = await this.userRepository.findOne({ where: { id } });
@@ -87,17 +89,15 @@ async findOne(username: string): Promise<User> {
     return await this.userRepository.save(updated);
   }
 
-/* These are two methods in the `UsersService` class that are responsible for deleting a tenant and its
+  /* These are two methods in the `UsersService` class that are responsible for deleting a tenant and its
 associated user from the database. */
   async deleteTenant(tenant: TenantEntity): Promise<void> {
     const user = tenant.user;
     await this.userRepository.delete(user.id);
   }
-  
+
   async remove(id: number): Promise<void> {
     const tenant = await this.tenantRepository.findOne({ where: { id } });
     await this.tenantRepository.delete(tenant);
   }
 }
-
-
