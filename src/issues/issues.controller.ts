@@ -21,7 +21,11 @@ export class IssuesController {
   constructor(private readonly issuesService: IssuesService) {}
 
   @Post()
-  create(@Body() createIssueDto: CreateIssueDto, categoryId: number, userId: number) {
+  create(
+    @Body() createIssueDto: CreateIssueDto,
+    categoryId: number,
+    userId: number,
+  ) {
     return this.issuesService.create(createIssueDto, categoryId, userId);
   }
 
@@ -30,7 +34,12 @@ export class IssuesController {
   findAll() {
     return this.issuesService.findAll();
   }
-
+  @Get('/search')
+  async searchIssuesBySubject(
+    @Query('subject') subject: string,
+  ): Promise<Issue[]> {
+    return this.issuesService.searchIssuesBySubject(subject);
+  }
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.issuesService.findOne(+id);
@@ -39,13 +48,5 @@ export class IssuesController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.issuesService.remove(+id);
-  }
-
-  // NOT TESTED
-  @Get('/search')
-  async searchIssuesBySubject(
-    @Query('subject') subject: string,
-  ): Promise<Issue[]> {
-    return this.issuesService.searchIssuesBySubject(subject);
   }
 }
