@@ -42,7 +42,7 @@ export class User {
   board: BoardMemberEntity | null;
 
   @Column({ type: 'enum', enum: Role, default: Role.User })
-  role: Role;
+  role: Role | null;
   
   @ManyToOne((type) => ApartmentInfo, (apartment) => apartment)
   apartmentInfo: ApartmentInfo;

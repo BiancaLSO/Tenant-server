@@ -21,8 +21,8 @@ export class IssuesController {
   constructor(private readonly issuesService: IssuesService) {}
 
   @Post()
-  create(@Body() createIssueDto: CreateIssueDto) {
-    return this.issuesService.create(createIssueDto);
+  create(@Body() createIssueDto: CreateIssueDto, categoryId: number, userId: number) {
+    return this.issuesService.create(createIssueDto, categoryId, userId);
   }
 
   // @UseGuards(JwtAuthGuard, TenantGuard) // testing
