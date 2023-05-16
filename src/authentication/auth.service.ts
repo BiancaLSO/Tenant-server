@@ -28,7 +28,7 @@ export class AuthService {
       if (matched) {
         return user;
       } else {
-        console.log("Password don't match");
+        console.log("Passwords don't match");
         return null;
       }
     }
