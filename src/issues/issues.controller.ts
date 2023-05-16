@@ -33,18 +33,20 @@ export class IssuesController {
     return this.issuesService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.issuesService.findOne(+id);
-  }
+  // @Get(':id')
+  // findOne(@Param('id') id: string) {
+  //   console.log(id);
+  //   return this.issuesService.findOne(+id);
+  // }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
+    console.log(id);
     return this.issuesService.remove(+id);
   }
 
-  @Get('filter')
-  async filter(@Query('categoryName') categoryName: string) {
+  @Get('filter/filters')
+  async filter(@Query('category') categoryName: string) {
     return await this.issuesService.filter(categoryName);
   }
 }
