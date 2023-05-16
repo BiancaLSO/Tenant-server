@@ -3,6 +3,7 @@ import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { User } from 'src/users/entities/user.entity';
 import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
+import { comparePasswords } from 'utils/bcrypt';
 
 @Injectable()
 export class AuthService {
@@ -18,13 +19,18 @@ export class AuthService {
     return this.usersService.createBoardMember(createUserDto);
   }
 
-  async validateUser(username: string, pass: any): Promise<any> {
+  async validateUser(username: string, pass: string): Promise<any> {
     const user = await this.usersService.findOne(username);
     console.log('user found', user);
 
-    if (user && user.password === pass) {
-      const { password, ...result } = user;
-      return result;
+    if (user) {
+      const matched = comparePasswords(pass, user.password);
+      if (matched) {
+        return user;
+      } else {
+        console.log("Password don't match");
+        return null;
+      }
     }
     return null;
   }
@@ -43,6 +49,7 @@ export class AuthService {
     }
 
     return {
+      id: payload._id,
       access_token: this.jwtService.sign(payload),
     };
   }
