@@ -29,8 +29,8 @@ export class UsersService {
       firstName: createUserDto.firstName,
       lastName: createUserDto.lastName,
       phone: createUserDto.phone,
-      startDate: createUserDto.startDate,
-      endDate: createUserDto.endDate,
+      // startDate: createUserDto.startDate,
+      // endDate: createUserDto.endDate,
       role: Role.User,
     });
     const tenant = new TenantEntity();
@@ -51,8 +51,8 @@ export class UsersService {
       firstName: createUserDto.firstName,
       lastName: createUserDto.lastName,
       phone: createUserDto.phone,
-      startDate: createUserDto.startDate,
-      endDate: createUserDto.endDate,
+      // startDate: createUserDto.startDate,
+      // endDate: createUserDto.endDate,
       role: Role.Admin,
     });
 
