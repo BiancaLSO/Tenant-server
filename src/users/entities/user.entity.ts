@@ -32,11 +32,11 @@ export class User {
   @Column()
   phone: string;
 
-  @Column()
-  startDate?: Date;
+  // @Column()
+  // startDate?: Date;
 
-  @Column()
-  endDate?: Date;
+  // @Column()
+  // endDate?: Date;
 
   // Link with apartment id
   // Link to issues created
