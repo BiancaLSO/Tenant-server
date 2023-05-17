@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne, ManyToOne, OneToMany } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToOne,
+  ManyToOne,
+  OneToMany,
+} from 'typeorm';
 import { Role } from '../roles/role.enum';
 import { TenantEntity } from './tenant.entity';
 import { BoardMemberEntity } from './boardmember.entity';
@@ -26,10 +33,10 @@ export class User {
   phone: string;
 
   @Column()
-  startDate: Date;
+  startDate?: Date;
 
   @Column()
-  endDate: Date;
+  endDate?: Date;
 
   // Link with apartment id
   // Link to issues created
@@ -43,7 +50,7 @@ export class User {
 
   @Column({ type: 'enum', enum: Role, default: Role.User })
   role: Role | null;
-  
+
   @ManyToOne((type) => ApartmentInfo, (apartment) => apartment)
   apartmentInfo: ApartmentInfo;
 
