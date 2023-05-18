@@ -48,6 +48,10 @@ export class IssuesService {
     return this.issueRepository.findOneBy({ id: id });
   }
 
+  findAllByUserId(userId: number): Promise<Issue[]> {
+    return this.issueRepository.find({ where: { user: { id: userId } } });
+  }
+
   remove(id: number) {
     return this.issueRepository.delete({ id: id });
   }

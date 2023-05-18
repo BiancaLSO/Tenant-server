@@ -56,4 +56,8 @@ export class IssuesController {
     console.log(categoryName);
     return await this.issuesService.filter(categoryName);
   }
+  @Get('user/issues/userissues')
+  findAllByUser(@Query('userId') userId: number) {
+    return this.issuesService.findAllByUserId(userId);
+  }
 }
