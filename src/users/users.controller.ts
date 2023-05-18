@@ -18,9 +18,10 @@ import { AdminGuard } from './roles/admin.guard';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService,
-    private readonly tenantService: UsersService) {}
-
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly tenantService: UsersService,
+  ) {}
 
   // @UseGuards(JwtAuthGuard, TenantGuard)  // testing
   @Get()
@@ -28,6 +29,7 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
   findOneUser(@Param('id') id: string) {
     return this.usersService.findOneUser(+id);
@@ -42,5 +44,4 @@ export class UsersController {
   async remove(@Param('id') id: number): Promise<void> {
     await this.tenantService.remove(id);
   }
- 
 }
