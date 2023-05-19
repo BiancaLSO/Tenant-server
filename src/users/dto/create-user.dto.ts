@@ -20,12 +20,6 @@ export class CreateUserDto {
   @IsNotEmpty()
   phone: string;
 
-  @IsNotEmpty()
-  startDate: Date;
-
-  @IsNotEmpty()
-  endDate: Date;
-
   constructor(
     email: string,
     firstName: string,
@@ -40,7 +34,5 @@ export class CreateUserDto {
     this.lastName = lastName;
     this.password = password;
     this.phone = phone;
-    this.startDate = startDate;
-    this.endDate = endDate;
   }
 }
