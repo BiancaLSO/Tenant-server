@@ -16,8 +16,6 @@ export class TenantEntity {
   @Column()
   name: string;
 
-  @IsNotEmpty()
-  @IsEmail()
   @Column()
   email: string;
 
