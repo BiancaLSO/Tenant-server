@@ -6,6 +6,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { User } from './user.entity';
+import { IsEmail, IsNotEmpty } from 'class-validator';
 
 @Entity()
 export class TenantEntity {
@@ -15,6 +16,8 @@ export class TenantEntity {
   @Column()
   name: string;
 
+  @IsNotEmpty()
+  @IsEmail()
   @Column()
   email: string;
 
