@@ -26,8 +26,6 @@ export class CreateUserDto {
     lastName: string,
     password: string,
     phone: string,
-    startDate: Date,
-    endDate: Date,
   ) {
     this.email = email;
     this.firstName = firstName;
