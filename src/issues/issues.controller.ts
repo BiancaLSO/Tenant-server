@@ -8,6 +8,7 @@ import {
   Delete,
   UseGuards,
   Query,
+  Req,
 } from '@nestjs/common';
 import { IssuesService } from './issues.service';
 import { CreateIssueDto } from './dto/create-issue.dto';
@@ -21,11 +22,25 @@ export class IssuesController {
   constructor(private readonly issuesService: IssuesService) {}
 
   @Post()
-  create(
-    @Body() createIssueDto: CreateIssueDto,
-    categoryId: number,
-    userId: number,
-  ) {
+  async create(@Req() req, @Body() body) {
+    // console.log('body:', body);
+
+    // Save the image if provided
+    let display_url: string | undefined;
+    // if (body.imegeUrl && body.imegeUrl.base64) {
+    display_url = await this.issuesService.saveImage(body.data.imageUrl.base64);
+    console.log('image url', display_url);
+    // }
+
+    // Create the issue
+    const createIssueDto = new CreateIssueDto(
+      body.data.subject,
+      body.data.description,
+      display_url,
+    );
+    const userId = 1; // Assuming the user ID is stored in req.user.userId
+    const categoryId = body.categoryId; // Assuming the category ID is provided in the request body
+
     return this.issuesService.create(createIssueDto, categoryId, userId);
   }
 
