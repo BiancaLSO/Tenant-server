@@ -12,6 +12,6 @@ export class Region {
   @Column()
   postcode: number;
 
-  @OneToMany(() => ApartmentInfo, (apartment) => apartment.region)
-  apartments: ApartmentInfo[];
+  // @OneToMany(() => ApartmentInfo, (apartment) => apartment.region)
+  // apartments: ApartmentInfo[];
 }

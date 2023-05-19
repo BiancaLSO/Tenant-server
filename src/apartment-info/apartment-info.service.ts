@@ -12,18 +12,16 @@ export class ApartmentInfoService {
     private apartmentInfoRepository: Repository<ApartmentInfo>,
   ) {}
 
-  // do not think we need it implemented on frontend, we will put some apartment info in the database with it and that's it
   async create(
     createApartmentInfoDto: CreateApartmentInfoDto,
   ): Promise<ApartmentInfo> {
     return this.apartmentInfoRepository.save(createApartmentInfoDto);
   }
 
-  // findAll() {
-  //   return `This action returns all apartmentInfo`;
-  // }
+  async findAll() {
+    return this.apartmentInfoRepository.find();
+  }
 
-  // not sure where we would use this either
   async findOne(id: number): Promise<ApartmentInfo> {
     const apartmentInfo = await this.apartmentInfoRepository.findOneBy({
       id: id,

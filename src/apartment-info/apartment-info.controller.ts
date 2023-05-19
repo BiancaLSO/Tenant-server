@@ -16,16 +16,14 @@ export class ApartmentInfoController {
   constructor(private readonly apartmentInfoService: ApartmentInfoService) {}
 
   @Post()
-
-  // do not think we need it implemented on frontend, we will put some apartment info in the database with it and that's it
   create(@Body() createApartmentInfoDto: CreateApartmentInfoDto) {
     return this.apartmentInfoService.create(createApartmentInfoDto);
   }
 
-  // @Get()
-  // findAll() {
-  //   return this.apartmentInfoService.findAll();
-  // }
+  @Get()
+  findAll() {
+    return this.apartmentInfoService.findAll();
+  }
 
   @Get(':id')
   findOne(@Param('id') id: string) {

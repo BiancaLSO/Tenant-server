@@ -13,6 +13,10 @@ export class CreateApartmentInfoDto {
   @IsNotEmpty()
   apartment: number;
 
+  @IsString()
+  @IsNotEmpty()
+  region: string;
+
   @IsBoolean()
   @IsNotEmpty()
   allowPets: boolean;
@@ -24,12 +28,14 @@ export class CreateApartmentInfoDto {
     street: string,
     floor: number,
     apartment: number,
+    region: string,
     allowPets: boolean,
     extraDetails: string,
   ) {
     this.street = street;
     this.floor = floor;
     this.apartment = apartment;
+    this.region = region;
     this.allowPets = allowPets;
     this.extraDetails = extraDetails;
   }
