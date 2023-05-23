@@ -1,6 +1,12 @@
 import { Region } from 'src/regions/entities/region.entity';
 import { User } from 'src/users/entities/user.entity';
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToMany,
+  ManyToOne,
+} from 'typeorm';
 
 @Entity()
 export class ApartmentInfo {
@@ -17,6 +23,9 @@ export class ApartmentInfo {
   apartment: number;
 
   @Column()
+  region: string;
+
+  @Column()
   allowPets: boolean;
 
   @Column()
@@ -25,6 +34,6 @@ export class ApartmentInfo {
   @OneToMany((type) => User, (user) => user.apartmentInfo)
   users: User[];
 
-  @ManyToOne((type) => Region, (region) => region.apartments)
-  region: Region;
+  // @ManyToOne((type) => Region, (region) => region.apartments)
+  // region: Region;
 }

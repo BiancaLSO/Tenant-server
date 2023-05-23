@@ -11,21 +11,27 @@ import { TenantEntity } from './tenant.entity';
 import { BoardMemberEntity } from './boardmember.entity';
 import { ApartmentInfo } from 'src/apartment-info/entities/apartment-info.entity';
 import { Issue } from 'src/issues/entities/issue.entity';
+import { IsEmail, IsNotEmpty } from 'class-validator';
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @IsNotEmpty()
+  @IsEmail()
   @Column()
   email: string;
 
+  @IsNotEmpty()
   @Column()
   password: string;
 
+  @IsNotEmpty()
   @Column()
   firstName: string;
 
+  @IsNotEmpty()
   @Column()
   lastName: string;
 
