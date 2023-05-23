@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CreateIssueDto {
   @IsNotEmpty()
@@ -9,6 +9,7 @@ export class CreateIssueDto {
   @IsString()
   description: string;
 
+  @IsOptional()
   imegeUrl?: string;
 
   constructor(subject: string, description: string, imegeUrl?: string) {

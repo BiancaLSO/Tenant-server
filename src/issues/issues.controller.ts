@@ -23,23 +23,37 @@ export class IssuesController {
 
   @Post()
   async create(@Req() req, @Body() body) {
-    // console.log('body:', body);
+    console.log('body:', body);
+
+    const userId = body.userId;
+    const categoryId = body.categoryId;
 
     // Save the image if provided
     let display_url: string | undefined;
-    // if (body.imegeUrl && body.imegeUrl.base64) {
-    display_url = await this.issuesService.saveImage(body.data.imageUrl.base64);
-    console.log('image url', display_url);
-    // }
+    if (body.data.imageUrl && body.data.imageUrl.base64) {
+      display_url = await this.issuesService.saveImage(
+        body.data.imageUrl.base64,
+      );
+      console.log('image url', display_url);
+    }
 
     // Create the issue
-    const createIssueDto = new CreateIssueDto(
-      body.data.subject,
-      body.data.description,
-      display_url,
-    );
-    const userId = 1; // Assuming the user ID is stored in req.user.userId
-    const categoryId = body.categoryId; // Assuming the category ID is provided in the request body
+    let createIssueDto;
+    if (display_url) {
+      createIssueDto = new CreateIssueDto(
+        body.data.subject,
+        body.data.description,
+        display_url,
+      );
+    } else {
+      createIssueDto = new CreateIssueDto(
+        body.data.subject,
+        body.data.description,
+      );
+    }
+
+    // const userId = 1; // Assuming the user ID is stored in req.user.userId
+    // const categoryId = body.categoryId; // Assuming the category ID is provided in the request body
 
     return this.issuesService.create(createIssueDto, categoryId, userId);
   }
