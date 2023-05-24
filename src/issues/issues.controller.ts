@@ -12,9 +12,6 @@ import {
 } from '@nestjs/common';
 import { IssuesService } from './issues.service';
 import { CreateIssueDto } from './dto/create-issue.dto';
-import { UpdateIssueDto } from './dto/update-issue.dto';
-import { TenantGuard } from 'src/users/roles/tenant.guard';
-import { JwtAuthGuard } from 'src/authentication/jwt-auth.guard';
 import { Issue } from './entities/issue.entity';
 
 @Controller('issues')
@@ -25,8 +22,8 @@ export class IssuesController {
   async create(@Req() req, @Body() body) {
     console.log('body:', body);
 
-    const userId = body.userId;
-    const categoryId = body.categoryId;
+    const userId = body.data.userId;
+    const categoryId = body.data.categoryId;
 
     // Save the image if provided
     let display_url: string | undefined;
@@ -37,7 +34,6 @@ export class IssuesController {
       console.log('image url', display_url);
     }
 
-    // Create the issue
     let createIssueDto;
     if (display_url) {
       createIssueDto = new CreateIssueDto(
@@ -51,10 +47,6 @@ export class IssuesController {
         body.data.description,
       );
     }
-
-    // const userId = 1; // Assuming the user ID is stored in req.user.userId
-    // const categoryId = body.categoryId; // Assuming the category ID is provided in the request body
-
     return this.issuesService.create(createIssueDto, categoryId, userId);
   }
 
