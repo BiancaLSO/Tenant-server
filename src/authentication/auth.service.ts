@@ -12,8 +12,8 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async signupTenant(createUserDto: CreateUserDto) {
-    return this.usersService.createTenant(createUserDto);
+  async signupTenant(createUserDto: CreateUserDto, apartmentInfoId?: number) {
+    return this.usersService.createTenant(createUserDto, apartmentInfoId);
   }
   async signupBoardMember(createUserDto: CreateUserDto) {
     return this.usersService.createBoardMember(createUserDto);
