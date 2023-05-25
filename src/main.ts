@@ -4,6 +4,7 @@ import {
   ExpressAdapter,
   NestExpressApplication,
 } from '@nestjs/platform-express';
+import { urlencoded, json } from 'express';
 // import { CorsOptions } from '@nestjs/common';
 
 async function bootstrap() {
@@ -14,7 +15,8 @@ async function bootstrap() {
 
   // Enable CORS
   app.enableCors();
-
+  app.use(json({ limit: '50mb' }));
+  app.use(urlencoded({ extended: true, limit: '50mb' }));
   await app.listen(3000);
 }
 bootstrap();

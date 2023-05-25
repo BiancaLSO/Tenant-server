@@ -8,12 +8,10 @@ import {
   Delete,
   UseGuards,
   Query,
+  Req,
 } from '@nestjs/common';
 import { IssuesService } from './issues.service';
 import { CreateIssueDto } from './dto/create-issue.dto';
-import { UpdateIssueDto } from './dto/update-issue.dto';
-import { TenantGuard } from 'src/users/roles/tenant.guard';
-import { JwtAuthGuard } from 'src/authentication/jwt-auth.guard';
 import { Issue } from './entities/issue.entity';
 
 @Controller('issues')
@@ -21,11 +19,34 @@ export class IssuesController {
   constructor(private readonly issuesService: IssuesService) {}
 
   @Post()
-  create(
-    @Body() createIssueDto: CreateIssueDto,
-    categoryId: number,
-    userId: number,
-  ) {
+  async create(@Req() req, @Body() body) {
+    console.log('body:', body);
+
+    const userId = body.data.userId;
+    const categoryId = body.data.categoryId;
+
+    // Save the image if provided
+    let display_url: string | undefined;
+    if (body.data.imageUrl && body.data.imageUrl.base64) {
+      display_url = await this.issuesService.saveImage(
+        body.data.imageUrl.base64,
+      );
+      console.log('image url', display_url);
+    }
+
+    let createIssueDto;
+    if (display_url) {
+      createIssueDto = new CreateIssueDto(
+        body.data.subject,
+        body.data.description,
+        display_url,
+      );
+    } else {
+      createIssueDto = new CreateIssueDto(
+        body.data.subject,
+        body.data.description,
+      );
+    }
     return this.issuesService.create(createIssueDto, categoryId, userId);
   }
 
