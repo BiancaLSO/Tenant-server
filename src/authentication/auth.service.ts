@@ -15,8 +15,12 @@ export class AuthService {
   async signupTenant(createUserDto: CreateUserDto, apartmentInfoId?: number) {
     return this.usersService.createTenant(createUserDto, apartmentInfoId);
   }
-  async signupBoardMember(createUserDto: CreateUserDto) {
-    return this.usersService.createBoardMember(createUserDto);
+
+  async signupBoardMember(
+    createUserDto: CreateUserDto,
+    apartmentInfoId?: number,
+  ) {
+    return this.usersService.createBoardMember(createUserDto, apartmentInfoId);
   }
 
   async validateUser(username: string, pass: string): Promise<any> {

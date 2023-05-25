@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Post,
+  Req,
   Request as Request2,
   UseGuards,
 } from '@nestjs/common';
@@ -14,15 +15,22 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('/signuptenant')
-  async signupTenant(
-    @Body() createUserDto: CreateUserDto,
-    apartmentInfoId?: number,
-  ) {
-    return this.authService.signupTenant(createUserDto, apartmentInfoId);
+  async signupTenant(@Req() req, @Body() createUserDto: CreateUserDto) {
+    const apartmentInfoId = req.body.apartmentInfo;
+    if (apartmentInfoId) {
+      return this.authService.signupTenant(createUserDto, apartmentInfoId);
+    } else {
+      return this.authService.signupTenant(createUserDto);
+    }
   }
   @Post('/signupboardmember')
-  async signupBoardMember(@Body() createUserDto: CreateUserDto) {
-    return this.authService.signupBoardMember(createUserDto);
+  async signupBoardMember(@Req() req, @Body() createUserDto: CreateUserDto) {
+    const apartmentInfoId = req.body.apartmentInfo;
+    if (apartmentInfoId) {
+      return this.authService.signupBoardMember(createUserDto, apartmentInfoId);
+    } else {
+      return this.authService.signupBoardMember(createUserDto);
+    }
   }
 
   // login

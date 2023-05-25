@@ -23,30 +23,18 @@ export class UsersService {
     private apartmentInfoRepository: Repository<ApartmentInfo>,
   ) {}
 
-  // this action creates a tenant-role with of user
-  // async createTenant(createUserDto: CreateUserDto): Promise<TenantEntity> {
-  //   const password = encodePassword(createUserDto.password);
-  //   const user = await this.userRepository.save({
-  //     email: createUserDto.email,
-  //     password: password,
-  //     firstName: createUserDto.firstName,
-  //     lastName: createUserDto.lastName,
-  //     phone: createUserDto.phone,
-  //     // startDate: createUserDto.startDate,
-  //     // endDate: createUserDto.endDate,
-  //     role: Role.User,
-  //   });
-  //   const tenant = new TenantEntity();
-  //   tenant.name = createUserDto.firstName;
-  //   tenant.email = createUserDto.email;
-  //   tenant.user = user;
-  //   return this.tenantRepository.save(tenant);
-  // }
-
   async createTenant(
     createUserDto: CreateUserDto,
     apartmentInfoId?: number,
   ): Promise<TenantEntity> {
+    let apartmentInfo: ApartmentInfo | undefined;
+
+    if (apartmentInfoId !== undefined) {
+      apartmentInfo = await this.apartmentInfoRepository.findOneBy({
+        id: apartmentInfoId,
+      });
+    }
+
     const password = encodePassword(createUserDto.password);
     const user = new User();
     user.email = createUserDto.email;
@@ -54,20 +42,8 @@ export class UsersService {
     user.firstName = createUserDto.firstName;
     user.lastName = createUserDto.lastName;
     user.phone = createUserDto.phone;
+    user.apartmentInfo = apartmentInfo;
     user.role = Role.User;
-
-    console.log(user.email);
-    console.log(apartmentInfoId);
-
-    if (apartmentInfoId) {
-      const apartmentInfo = await this.apartmentInfoRepository.findOneBy({
-        id: apartmentInfoId,
-      });
-      if (!apartmentInfo) {
-        throw new Error(`ApartmentInfo with ID ${apartmentInfoId} not found.`);
-      }
-      user.apartmentInfo = apartmentInfo;
-    }
 
     const savedUser = await this.userRepository.save(user);
 
@@ -81,18 +57,27 @@ export class UsersService {
   // this action creates a boardmember with role of admin
   async createBoardMember(
     createUserDto: CreateUserDto,
+    apartmentInfoId?: number,
   ): Promise<BoardMemberEntity> {
+    let apartmentInfo: ApartmentInfo | undefined;
+
+    if (apartmentInfoId !== undefined) {
+      apartmentInfo = await this.apartmentInfoRepository.findOneBy({
+        id: apartmentInfoId,
+      });
+    }
+
     const password = encodePassword(createUserDto.password);
-    const user = await this.userRepository.save({
-      email: createUserDto.email,
-      password: password,
-      firstName: createUserDto.firstName,
-      lastName: createUserDto.lastName,
-      phone: createUserDto.phone,
-      // startDate: createUserDto.startDate,
-      // endDate: createUserDto.endDate,
-      role: Role.Admin,
-    });
+    const user = new User();
+    user.email = createUserDto.email;
+    user.password = password;
+    user.firstName = createUserDto.firstName;
+    user.lastName = createUserDto.lastName;
+    user.phone = createUserDto.phone;
+    user.apartmentInfo = apartmentInfo;
+    user.role = Role.Admin;
+
+    const savedUser = await this.userRepository.save(user);
 
     const boardMember = new BoardMemberEntity();
     boardMember.name = createUserDto.firstName;

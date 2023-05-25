@@ -26,8 +26,8 @@ export class CreateUserDto {
   @IsNotEmpty()
   phone: string;
 
-  @IsOptional()
-  apartmentInfo?: number;
+  // @IsOptional()
+  // apartmentInfo?: number;
 
   constructor(
     email: string,
@@ -35,13 +35,13 @@ export class CreateUserDto {
     lastName: string,
     password: string,
     phone: string,
-    apartmentInfo?: number,
+    // apartmentInfo?: number,
   ) {
     this.email = email;
     this.firstName = firstName;
     this.lastName = lastName;
     this.password = password;
     this.phone = phone;
-    this.apartmentInfo = apartmentInfo;
+    // this.apartmentInfo = apartmentInfo;
   }
 }
