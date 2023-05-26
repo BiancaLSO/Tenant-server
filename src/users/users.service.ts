@@ -86,25 +86,30 @@ export class UsersService {
     return this.boardMemberRepository.save(boardMember);
   }
 
-  // login
   async findUserById(id: number): Promise<User> {
-    return this.userRepository.findOne({ where: { id: id } });
+    return this.userRepository.findOne({
+      where: { id: id },
+      relations: ['apartmentInfo'],
+    });
   }
 
   async findOne(username: string): Promise<User> {
     const result = await this.userRepository.findOne({
       where: { email: username },
-      relations: { tenant: true, board: true },
+      relations: { tenant: true, board: true, apartmentInfo: true },
     });
     return result;
   }
 
   findAll() {
-    return this.userRepository.find();
+    return this.userRepository.find({ relations: ['apartmentInfo'] });
   }
 
   findOneUser(id: number) {
-    return this.userRepository.findOneBy({ id: id });
+    return this.userRepository.findOne({
+      where: { id: id },
+      relations: ['apartmentInfo'],
+    });
   }
   async update(id: number, updateUserDto: UpdateUserDto) {
     const toUpdate = await this.userRepository.findOne({ where: { id } });
