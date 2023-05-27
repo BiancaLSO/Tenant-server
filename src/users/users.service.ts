@@ -136,7 +136,10 @@ export class UsersService {
     if (updateUserDto.password) {
       const encryptedPassword = encodePassword(updateUserDto.password);
       updateUserDto.password = encryptedPassword;
+    } else {
+      delete updateUserDto.password; // Remove the password field from updateUserDto
     }
+
     const updated = Object.assign(toUpdate, updateUserDto);
     return await this.userRepository.save(updated);
   }
