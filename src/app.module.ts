@@ -16,6 +16,8 @@ import { User } from './users/entities/user.entity';
 import { AuthModule } from './authentication/auth.module';
 import { CategoriesModule } from './categories/categories.module';
 import { Category } from './categories/entities/category.entity';
+import { APP_FILTER } from '@nestjs/core';
+import { SignupExceptionFilter } from './users/signup.exception-filter';
 
 @Module({
   imports: [
@@ -30,7 +32,7 @@ import { Category } from './categories/entities/category.entity';
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
         autoLoadEntities: true,
-        entities: [ Issue, Info, Region, ApartmentInfo, User, Category],
+        entities: [Issue, Info, Region, ApartmentInfo, User, Category],
         synchronize: true, // Setting synchronize: true shouldn't be used in production - otherwise you can lose production data.
       }),
       inject: [ConfigService],
@@ -44,6 +46,12 @@ import { Category } from './categories/entities/category.entity';
     CategoriesModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_FILTER,
+      useClass: SignupExceptionFilter,
+    },
+  ],
 })
 export class AppModule {}

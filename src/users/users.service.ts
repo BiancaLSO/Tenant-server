@@ -9,6 +9,8 @@ import { Repository } from 'typeorm';
 import { Role } from './roles/role.enum';
 import { encodePassword } from 'utils/bcrypt';
 import { ApartmentInfo } from 'src/apartment-info/entities/apartment-info.entity';
+import { UseFilters } from '@nestjs/common';
+import { SignupExceptionFilter } from './signup.exception-filter';
 
 @Injectable()
 export class UsersService {
@@ -23,10 +25,18 @@ export class UsersService {
     private apartmentInfoRepository: Repository<ApartmentInfo>,
   ) {}
 
+  @UseFilters(SignupExceptionFilter)
   async createTenant(
     createUserDto: CreateUserDto,
     apartmentInfoId?: number,
   ): Promise<TenantEntity> {
+    const existingUser = await this.userRepository.findOneBy({
+      email: createUserDto.email,
+    });
+    if (existingUser) {
+      throw new Error('Email already exists'); // Throw an error indicating that the email already exists
+    }
+
     let apartmentInfo: ApartmentInfo | undefined;
 
     if (apartmentInfoId !== undefined) {
@@ -55,10 +65,18 @@ export class UsersService {
   }
 
   // this action creates a boardmember with role of admin
+  @UseFilters(SignupExceptionFilter)
   async createBoardMember(
     createUserDto: CreateUserDto,
     apartmentInfoId?: number,
   ): Promise<BoardMemberEntity> {
+    const existingUser = await this.userRepository.findOneBy({
+      email: createUserDto.email,
+    });
+    if (existingUser) {
+      throw new Error('Email already exists'); // Throw an error indicating that the email already exists
+    }
+
     let apartmentInfo: ApartmentInfo | undefined;
 
     if (apartmentInfoId !== undefined) {
