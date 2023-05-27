@@ -129,8 +129,14 @@ export class UsersService {
       relations: ['apartmentInfo'],
     });
   }
+
   async update(id: number, updateUserDto: UpdateUserDto) {
     const toUpdate = await this.userRepository.findOne({ where: { id } });
+
+    if (updateUserDto.password) {
+      const encryptedPassword = encodePassword(updateUserDto.password);
+      updateUserDto.password = encryptedPassword;
+    }
     const updated = Object.assign(toUpdate, updateUserDto);
     return await this.userRepository.save(updated);
   }
