@@ -144,7 +144,7 @@ export class UsersService {
     return await this.userRepository.save(updated);
   }
 
-  async removeTenant(id: number): Promise<void> {
+  async removeUserAndRelatedEntities(id: number): Promise<void> {
     const user = await this.userRepository.findOne({ where: { id } });
 
     if (user) {
@@ -156,27 +156,18 @@ export class UsersService {
 
       if (tenant) {
         // Delete the tenant entity
-        this.tenantRepository.delete(tenant.id);
+        await this.tenantRepository.delete(tenant.id);
       }
 
-      // Delete the user entity
-      await this.userRepository.delete(user.id);
-    }
-  }
-
-  async removeBoardMember(id: number): Promise<void> {
-    const user = await this.userRepository.findOne({ where: { id } });
-
-    if (user) {
-      const boardmember = await this.boardMemberRepository
-        .createQueryBuilder('tenant')
-        .leftJoin('tenant.user', 'user')
+      const boardMember = await this.boardMemberRepository
+        .createQueryBuilder('boardmember')
+        .leftJoin('boardmember.user', 'user')
         .where('user.id = :id', { id })
         .getOne();
 
-      if (boardmember) {
-        // Delete the tenant entity
-        this.boardMemberRepository.delete(boardmember.id);
+      if (boardMember) {
+        // Delete the board member entity
+        await this.boardMemberRepository.delete(boardMember.id);
       }
 
       // Delete the user entity
