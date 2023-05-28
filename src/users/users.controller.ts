@@ -12,7 +12,7 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { JwtAuthGuard } from 'src/authentication/jwt-auth.guard';
+import { JwtAuthGuard } from '../../src/authentication/jwt-auth.guard';
 import { TenantGuard } from './roles/tenant.guard';
 import { AdminGuard } from './roles/admin.guard';
 

@@ -2,12 +2,12 @@ import { Module } from '@nestjs/common';
 import { RegionsService } from './regions.service';
 import { RegionsController } from './regions.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthModule } from 'src/authentication/auth.module';
-import { Region } from './entities/region.entity';
+import { AuthModule } from '../../src/authentication/auth.module';
+import { Region } from '../../src/regions/entities/region.entity';
 
 @Module({
-  imports:[TypeOrmModule.forFeature([Region]), AuthModule],
+  imports: [TypeOrmModule.forFeature([Region]), AuthModule],
   controllers: [RegionsController],
-  providers: [RegionsService]
+  providers: [RegionsService],
 })
 export class RegionsModule {}

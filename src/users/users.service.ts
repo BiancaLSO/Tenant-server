@@ -7,8 +7,8 @@ import { TenantEntity } from './entities/tenant.entity';
 import { BoardMemberEntity } from './entities/boardmember.entity';
 import { Repository } from 'typeorm';
 import { Role } from './roles/role.enum';
-import { encodePassword } from 'utils/bcrypt';
-import { ApartmentInfo } from 'src/apartment-info/entities/apartment-info.entity';
+import { encodePassword } from '../../utils/bcrypt';
+import { ApartmentInfo } from '../../src/apartment-info/entities/apartment-info.entity';
 import { UseFilters } from '@nestjs/common';
 import { SignupExceptionFilter } from './signup.exception-filter';
 
