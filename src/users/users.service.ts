@@ -144,15 +144,43 @@ export class UsersService {
     return await this.userRepository.save(updated);
   }
 
-  /* These are two methods in the `UsersService` class that are responsible for deleting a tenant and its
-associated user from the database. */
-  async deleteTenant(tenant: TenantEntity): Promise<void> {
-    const user = tenant.user;
-    await this.userRepository.delete(user.id);
+  async removeTenant(id: number): Promise<void> {
+    const user = await this.userRepository.findOne({ where: { id } });
+
+    if (user) {
+      const tenant = await this.tenantRepository
+        .createQueryBuilder('tenant')
+        .leftJoin('tenant.user', 'user')
+        .where('user.id = :id', { id })
+        .getOne();
+
+      if (tenant) {
+        // Delete the tenant entity
+        this.tenantRepository.delete(tenant.id);
+      }
+
+      // Delete the user entity
+      await this.userRepository.delete(user.id);
+    }
   }
 
-  async remove(id: number): Promise<void> {
-    const tenant = await this.tenantRepository.findOne({ where: { id } });
-    await this.tenantRepository.delete(tenant);
+  async removeBoardMember(id: number): Promise<void> {
+    const user = await this.userRepository.findOne({ where: { id } });
+
+    if (user) {
+      const boardmember = await this.boardMemberRepository
+        .createQueryBuilder('tenant')
+        .leftJoin('tenant.user', 'user')
+        .where('user.id = :id', { id })
+        .getOne();
+
+      if (boardmember) {
+        // Delete the tenant entity
+        this.boardMemberRepository.delete(boardmember.id);
+      }
+
+      // Delete the user entity
+      await this.userRepository.delete(user.id);
+    }
   }
 }
