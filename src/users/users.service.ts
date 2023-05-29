@@ -11,6 +11,7 @@ import { encodePassword } from 'utils/bcrypt';
 import { ApartmentInfo } from 'src/apartment-info/entities/apartment-info.entity';
 import { UseFilters } from '@nestjs/common';
 import { SignupExceptionFilter } from './signup.exception-filter';
+import { randomInt } from 'crypto';
 
 @Injectable()
 export class UsersService {
@@ -37,13 +38,10 @@ export class UsersService {
       throw new Error('Email already exists'); // Throw an error indicating that the email already exists
     }
 
-    let apartmentInfo: ApartmentInfo | undefined;
-
-    if (apartmentInfoId !== undefined) {
-      apartmentInfo = await this.apartmentInfoRepository.findOneBy({
-        id: apartmentInfoId,
-      });
-    }
+    const randomApartmentId = randomInt(1, 6); // Generate a random number between 1 and 6
+    const apartmentInfo = await this.apartmentInfoRepository.findOneBy({
+      id: randomApartmentId,
+    });
 
     const password = encodePassword(createUserDto.password);
     const user = new User();
@@ -61,6 +59,7 @@ export class UsersService {
     tenant.name = createUserDto.firstName;
     tenant.email = createUserDto.email;
     tenant.user = savedUser;
+    console.log('tenant entity', tenant);
     return this.tenantRepository.save(tenant);
   }
 
@@ -77,13 +76,10 @@ export class UsersService {
       throw new Error('Email already exists'); // Throw an error indicating that the email already exists
     }
 
-    let apartmentInfo: ApartmentInfo | undefined;
-
-    if (apartmentInfoId !== undefined) {
-      apartmentInfo = await this.apartmentInfoRepository.findOneBy({
-        id: apartmentInfoId,
-      });
-    }
+    const randomApartmentId = randomInt(1, 6); // Generate a random number between 1 and 6
+    const apartmentInfo = await this.apartmentInfoRepository.findOneBy({
+      id: randomApartmentId,
+    });
 
     const password = encodePassword(createUserDto.password);
     const user = new User();
