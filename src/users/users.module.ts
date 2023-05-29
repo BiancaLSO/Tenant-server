@@ -19,7 +19,7 @@ import { SignupExceptionFilter } from './signup.exception-filter';
     ]),
   ],
   controllers: [UsersController],
-  providers: [UsersService, SignupExceptionFilter],
+  providers: [UsersService],
   exports: [
     UsersService,
     TypeOrmModule.forFeature([
