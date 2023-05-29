@@ -9,7 +9,8 @@ import { catchError, firstValueFrom } from 'rxjs';
 import { HttpService } from '@nestjs/axios';
 import axios, { AxiosError } from 'axios';
 import RNFetchBlob from 'react-native-fetch-blob';
-import * as FormData from 'form-data';
+// import * as FormData from 'form-data';
+import FormData from 'form-data';
 import { base64StringToBlob } from 'blob-util';
 @Injectable()
 export class IssuesService {
