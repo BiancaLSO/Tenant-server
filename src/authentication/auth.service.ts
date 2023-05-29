@@ -43,7 +43,6 @@ export class AuthService {
     let payload: any = {
       username: user.email,
       id: user.id,
-      role: user.role,
       // tenantId: user.tenant?.id
     };
 
@@ -56,7 +55,6 @@ export class AuthService {
     return {
       id: payload.id,
       access_token: this.jwtService.sign(payload),
-      role: user.role,
     };
   }
 }
