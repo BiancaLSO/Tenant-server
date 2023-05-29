@@ -96,7 +96,7 @@ export class UsersService {
     const boardMember = new BoardMemberEntity();
     boardMember.name = createUserDto.firstName;
     boardMember.phone = createUserDto.phone;
-    boardMember.user = user;
+    boardMember.user = savedUser;
     return this.boardMemberRepository.save(boardMember);
   }
 
@@ -140,13 +140,13 @@ export class UsersService {
     return await this.userRepository.save(updated);
   }
 
-  async removeUserAndRelatedEntities(id: number): Promise<void> {
+  async removeUserAndRelatedEntities(id: number): Promise<{ message: string }> {
     const user = await this.userRepository.findOne({ where: { id } });
 
     if (user) {
       const tenant = await this.tenantRepository
         .createQueryBuilder('tenant')
-        .leftJoin('tenant.user', 'user')
+        .innerJoin('tenant.user', 'user')
         .where('user.id = :id', { id })
         .getOne();
 
@@ -157,7 +157,7 @@ export class UsersService {
 
       const boardMember = await this.boardMemberRepository
         .createQueryBuilder('boardmember')
-        .leftJoin('boardmember.user', 'user')
+        .innerJoin('boardmember.user', 'user')
         .where('user.id = :id', { id })
         .getOne();
 
@@ -168,6 +168,10 @@ export class UsersService {
 
       // Delete the user entity
       await this.userRepository.delete(user.id);
+
+      return { message: 'User and related entities deleted' };
     }
+
+    throw new Error('User not found');
   }
 }

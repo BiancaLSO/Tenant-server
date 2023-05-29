@@ -41,7 +41,9 @@ export class UsersController {
   }
 
   @Delete(':id')
-  async removeBoardMember(@Param('id') id: number): Promise<void> {
-    await this.usersService.removeUserAndRelatedEntities(id);
+  async removeBoardMember(
+    @Param('id') id: number,
+  ): Promise<{ message: string }> {
+    return this.usersService.removeUserAndRelatedEntities(id);
   }
 }
