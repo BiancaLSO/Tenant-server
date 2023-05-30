@@ -13,8 +13,8 @@ import {
 import { IssuesService } from './issues.service';
 import { CreateIssueDto } from './dto/create-issue.dto';
 import { Issue } from './entities/issue.entity';
-import { AdminGuard } from 'src/users/roles/admin.guard';
-import { JwtAuthGuard } from 'src/authentication/jwt-auth.guard';
+import { AdminGuard } from '../../src/users/roles/admin.guard';
+import { JwtAuthGuard } from '../../src/authentication/jwt-auth.guard';
 
 @Controller('issues')
 export class IssuesController {
@@ -71,11 +71,11 @@ export class IssuesController {
     return this.issuesService.findOne(+id);
   }
 
-  @UseGuards(JwtAuthGuard, AdminGuard)
+  // @UseGuards(JwtAuthGuard, AdminGuard)
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: number) {
     console.log(id);
-    return this.issuesService.remove(+id);
+    return this.issuesService.remove(id);
   }
 
   @Get('filter/filters')
