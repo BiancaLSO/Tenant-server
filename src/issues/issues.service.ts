@@ -33,6 +33,7 @@ export class IssuesService {
     });
     const user = await this.userRepository.findOneBy({ id: userId });
 
+    console.log(user);
     if (!category || !user) {
       throw new Error('Category not found');
     }

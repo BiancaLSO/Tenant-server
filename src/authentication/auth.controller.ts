@@ -16,21 +16,13 @@ export class AuthController {
 
   @Post('/signuptenant')
   async signupTenant(@Req() req, @Body() createUserDto: CreateUserDto) {
-    const apartmentInfoId = req.body.apartmentInfo;
-    if (apartmentInfoId) {
-      return this.authService.signupTenant(createUserDto, apartmentInfoId);
-    } else {
-      return this.authService.signupTenant(createUserDto);
-    }
+    console.log(createUserDto);
+    return this.authService.signupTenant(createUserDto);
   }
+
   @Post('/signupboardmember')
   async signupBoardMember(@Req() req, @Body() createUserDto: CreateUserDto) {
-    const apartmentInfoId = req.body.apartmentInfo;
-    if (apartmentInfoId) {
-      return this.authService.signupBoardMember(createUserDto, apartmentInfoId);
-    } else {
-      return this.authService.signupBoardMember(createUserDto);
-    }
+    return this.authService.signupBoardMember(createUserDto);
   }
 
   // login

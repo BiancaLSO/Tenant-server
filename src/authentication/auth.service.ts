@@ -32,7 +32,7 @@ export class AuthService {
       if (matched) {
         return user;
       } else {
-        console.log("Passwords don't match");
+        console.log("Passwords don't match", user.password);
         return null;
       }
     }

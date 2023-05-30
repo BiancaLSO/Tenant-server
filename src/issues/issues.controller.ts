@@ -13,6 +13,8 @@ import {
 import { IssuesService } from './issues.service';
 import { CreateIssueDto } from './dto/create-issue.dto';
 import { Issue } from './entities/issue.entity';
+import { AdminGuard } from 'src/users/roles/admin.guard';
+import { JwtAuthGuard } from 'src/authentication/jwt-auth.guard';
 
 @Controller('issues')
 export class IssuesController {
@@ -20,10 +22,13 @@ export class IssuesController {
 
   @Post()
   async create(@Req() req, @Body() body) {
-    console.log('body:', body);
+    // console.log('body:', body);
 
     const userId = body.data.userId;
     const categoryId = body.data.categoryId;
+
+    console.log('userId from controler', userId);
+    console.log('categoryId from controller', categoryId);
 
     // Save the image if provided
     let display_url: string | undefined;
@@ -66,6 +71,7 @@ export class IssuesController {
     return this.issuesService.findOne(+id);
   }
 
+  @UseGuards(JwtAuthGuard, AdminGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     console.log(id);

@@ -18,7 +18,7 @@ import { SignupExceptionFilter } from '../../src/users/signup.exception-filter';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy, JwtStrategy, SignupExceptionFilter],
+  providers: [AuthService, LocalStrategy, JwtStrategy],
   exports: [AuthService],
 })
 export class AuthModule {}
