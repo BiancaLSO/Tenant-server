@@ -7,10 +7,10 @@ import { Connection, Repository } from 'typeorm';
 import { Issue } from '../src/issues/entities/issue.entity';
 import { CreateIssueDto } from '../src/issues/dto/create-issue.dto';
 
-describe('ProblemController (e2e)', () => {
+describe('IssueController (e2e)', () => {
   let app: INestApplication;
   let moduleFixture: TestingModule;
-  let problemRepository: Repository<Issue>;
+  let issueRepository: Repository<Issue>;
   let connection: Connection;
 
   beforeEach(async () => {
@@ -18,8 +18,8 @@ describe('ProblemController (e2e)', () => {
       imports: [TestModule],
     }).compile();
 
-    problemRepository = moduleFixture.get(getRepositoryToken(Issue));
-    await problemRepository.delete({});
+    issueRepository = moduleFixture.get(getRepositoryToken(Issue));
+    await issueRepository.delete({});
 
     connection = moduleFixture.get(Connection);
     app = moduleFixture.createNestApplication();
@@ -27,7 +27,7 @@ describe('ProblemController (e2e)', () => {
   });
 
   afterEach(async () => {
-    await problemRepository.delete({});
+    await issueRepository.delete({});
     await moduleFixture.close();
   });
 
@@ -35,11 +35,11 @@ describe('ProblemController (e2e)', () => {
     it('should retrieve all issues (GET)', async () => {
       // Arrange
       await Promise.all([
-        await problemRepository.insert(
+        await issueRepository.insert(
           new CreateIssueDto('Broken toilet', 'Cannot flush'),
         ),
 
-        await problemRepository.insert(
+        await issueRepository.insert(
           new CreateIssueDto('Broken toilet', 'Water is running constantly'),
         ),
       ]);
@@ -73,6 +73,23 @@ describe('ProblemController (e2e)', () => {
 
       expect(body.subject).toEqual('Water issue');
       expect(body.description).toEqual('Water is coming out');
+    });
+  });
+
+  describe('DELETE issue by ID', () => {
+    it('should delete an issue by ID (DELETE)', async () => {
+      const issue = {
+        userId: 1,
+        categoryId: 1,
+        data: {
+          issueId: 1,
+          subject: 'Water issue',
+          description: 'Water is coming out',
+        },
+      };
+      await request(app.getHttpServer())
+        .delete(`/issues/${issue.data.issueId}`)
+        .expect(200);
     });
   });
 
