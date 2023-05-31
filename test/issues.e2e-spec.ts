@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { TestModule } from './../src/test.module';
+import { TestModule } from '../src/test.module';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Connection, Repository } from 'typeorm';
 import { Issue } from '../src/issues/entities/issue.entity';
@@ -52,6 +52,34 @@ describe('IssueController (e2e)', () => {
       // Assert (expect)
       expect(body.length).toEqual(2);
       expect(body[0].description).toEqual('Cannot flush');
+    });
+  });
+
+  describe('GET Issue by ID', () => {
+    it('should retrieve an issue by ID (GET)', async () => {
+      // Arrange
+      const createDto1 = new CreateIssueDto(
+        'Broken toilet 2',
+        'Cannot flush 2',
+      );
+      const createDto2 = new CreateIssueDto(
+        'Broken toile 3',
+        'Water is running constantly 3',
+      );
+
+      const issue1 = await issueRepository.insert(createDto1);
+      const issue2 = await issueRepository.insert(createDto2);
+
+      // Act
+      const { body: retrievedIssue }: { body: Issue } = await request(
+        app.getHttpServer(),
+      )
+        .get(`/issues/${issue1.identifiers[0].id}`)
+        .expect(200);
+
+      // Assert
+      expect(retrievedIssue.id).toEqual(issue1.identifiers[0].id);
+      expect(retrievedIssue.description).toEqual('Cannot flush 2');
     });
   });
 

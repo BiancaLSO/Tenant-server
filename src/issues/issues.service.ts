@@ -59,7 +59,7 @@ export class IssuesService {
 
     const response = await axios.post(
       `https://api.imgbb.com/1/upload?key=${process.env.IMG_API_KEY}`,
-      formData,
+      formData, // req payload
       {
         headers: formData.getHeaders(),
       },
