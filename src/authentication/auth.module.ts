@@ -7,7 +7,7 @@ import { jwtConstants } from './constants';
 import { JwtStrategy } from './jwt.startegy';
 import { LocalStrategy } from './local.strategy';
 import { AuthController } from './auth.controller';
-import { SignupExceptionFilter } from 'src/users/signup.exception-filter';
+import { SignupExceptionFilter } from '../../src/users/signup.exception-filter';
 
 @Module({
   imports: [

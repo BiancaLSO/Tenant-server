@@ -9,8 +9,8 @@ import {
 import { Role } from '../roles/role.enum';
 import { TenantEntity } from './tenant.entity';
 import { BoardMemberEntity } from './boardmember.entity';
-import { ApartmentInfo } from 'src/apartment-info/entities/apartment-info.entity';
-import { Issue } from 'src/issues/entities/issue.entity';
+import { ApartmentInfo } from '../../../src/apartment-info/entities/apartment-info.entity';
+import { Issue } from '../../../src/issues/entities/issue.entity';
 import { IsEmail, IsNotEmpty } from 'class-validator';
 
 @Entity()

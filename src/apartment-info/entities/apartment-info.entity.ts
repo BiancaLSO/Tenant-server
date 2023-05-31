@@ -1,5 +1,5 @@
 import { Region } from 'src/regions/entities/region.entity';
-import { User } from 'src/users/entities/user.entity';
+import { User } from '../../../src/users/entities/user.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,

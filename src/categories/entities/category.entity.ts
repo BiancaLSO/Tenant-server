@@ -1,4 +1,4 @@
-import { Issue } from 'src/issues/entities/issue.entity';
+import { Issue } from '../../../src/issues/entities/issue.entity';
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 
 @Entity()
@@ -10,5 +10,5 @@ export class Category {
   name: string;
 
   @OneToMany(() => Issue, (issue) => issue.category)
-  issues: Issue[];  
+  issues: Issue[];
 }
