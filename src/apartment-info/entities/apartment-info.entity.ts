@@ -1,4 +1,3 @@
-import { Region } from 'src/regions/entities/region.entity';
 import { User } from '../../../src/users/entities/user.entity';
 import {
   Entity,
@@ -33,7 +32,4 @@ export class ApartmentInfo {
 
   @OneToMany((type) => User, (user) => user.apartmentInfo)
   users: User[];
-
-  // @ManyToOne((type) => Region, (region) => region.apartments)
-  // region: Region;
 }

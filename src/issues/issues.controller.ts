@@ -3,18 +3,14 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
-  UseGuards,
   Query,
   Req,
 } from '@nestjs/common';
 import { IssuesService } from './issues.service';
 import { CreateIssueDto } from './dto/create-issue.dto';
 import { Issue } from './entities/issue.entity';
-import { AdminGuard } from '../../src/users/roles/admin.guard';
-import { JwtAuthGuard } from '../../src/authentication/jwt-auth.guard';
 
 @Controller('issues')
 export class IssuesController {
@@ -22,8 +18,6 @@ export class IssuesController {
 
   @Post()
   async create(@Req() req, @Body() body) {
-    // console.log('body:', body);
-
     const userId = body.data.userId;
     const categoryId = body.data.categoryId;
 
@@ -55,7 +49,6 @@ export class IssuesController {
     return this.issuesService.create(createIssueDto, categoryId, userId);
   }
 
-  // @UseGuards(JwtAuthGuard, TenantGuard) // testing
   @Get()
   findAll() {
     return this.issuesService.findAll();

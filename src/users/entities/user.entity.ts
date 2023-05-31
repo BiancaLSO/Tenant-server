@@ -38,15 +38,6 @@ export class User {
   @Column()
   phone: string;
 
-  // @Column()
-  // startDate?: Date;
-
-  // @Column()
-  // endDate?: Date;
-
-  // Link with apartment id
-  // Link to issues created
-
   // Link with Tenant, Admin and SuperAdmin for Role Based Auth
   @OneToOne((type) => TenantEntity, (tenant) => tenant.user)
   tenant: TenantEntity | null;

@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { CreateApartmentInfoDto } from './dto/create-apartment-info.dto';
-import { UpdateApartmentInfoDto } from './dto/update-apartment-info.dto';
 import { ApartmentInfo } from './entities/apartment-info.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
