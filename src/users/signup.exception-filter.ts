@@ -5,7 +5,7 @@ export class SignupExceptionFilter implements ExceptionFilter {
   catch(error: Error, host: ArgumentsHost) {
     const response = host.switchToHttp().getResponse<Response>();
     const status = 400; // Set the appropriate HTTP status code for the error
-    const message = 'Sign-up failed. Please try again.'; // Default error message
+    const message = 'Error from server.'; // Default error message
 
     if (error.message === 'Email already exists') {
       response.status(status).json({
@@ -14,7 +14,7 @@ export class SignupExceptionFilter implements ExceptionFilter {
       });
     } else {
       response.status(status).json({
-        error: 'SignUpFailed',
+        error: 'ErrorFromServer',
         message,
       });
     }
